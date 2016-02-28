@@ -1,0 +1,96 @@
+---
+- name: Remove pre-exiting configurations
+  file: path=~{{devuser}}/{{item}} state=absent
+  with_items:
+    - '.vim'
+  tags: 
+    - vim-development
+
+- name: Install Pathogen 
+  shell: mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+  become: yes
+  become_user: "{{devuser}}"
+  tags: 
+    - vim-development
+
+- name: Install Vim plugins
+  shell: cd ~/.vim/bundle && git clone {{item.url}}
+  become: yes
+  become_user: "{{devuser}}"
+  with_items:
+    - {url: 'https://github.com/Valloric/YouCompleteMe.git'}
+    - {url: 'https://github.com/scrooloose/nerdtree.git'}
+    - {url: 'https://github.com/scrooloose/nerdcommenter.git'}
+    - {url: 'https://github.com/flazz/vim-colorschemes.git'}
+    - {url: 'https://github.com/kien/ctrlp.vim.git'}
+    - {url: 'https://github.com/bling/vim-airline.git'}
+    - {url: 'https://github.com/tmhedberg/SimpylFold.git'}
+    - {url: 'https://github.com/jlanzarotta/bufexplorer.git'}
+    - {url: 'https://github.com/scrooloose/syntastic.git'}
+    - {url: 'https://github.com/tpope/vim-surround.git'}
+    - {url: 'https://github.com/tpope/vim-repeat.git'}
+    - {url: 'https://github.com/tomtom/tlib_vim.git'}
+    - {url: 'https://github.com/garbas/vim-snipmate.git'}
+    - {url: 'https://github.com/mattn/emmet-vim.git'}
+    - {url: 'https://github.com/vim-scripts/YankRing.vim.git'}
+    - {url: 'https://github.com/Yggdroot/indentLine.git'}
+    - {url: 'https://github.com/MarcWeber/vim-addon-mw-utils.git'}
+  tags:
+    - vim-development
+
+- name: Create link to installed vim-colorschemes/colors directory
+  file: state=link
+        path=~{{devuser}}/.vim/colors
+        src=~{{devuser}}/.vim/bundle/vim-colorschemes/colors
+        owner={{devuser }}
+  tags:
+    - vim-development
+    - vim-development-link
+
+- name: Update python SimpylFold plugin
+  shell: cd ~/.vim/bundle/SimpylFold && git submodule update --init
+  become: yes
+  become_user: "{{devuser}}"
+  tags: 
+    - vim-development
+
+- name: Compile YouCompleteMe vim plugin
+  shell: . {{virtual_env}}/bin/activate && 
+     cd ~/.vim/bundle/YouCompleteMe && 
+     git submodule update --init --recursive && 
+     ./install.py
+  become: yes
+  become_user: "{{devuser}}"
+  tags: 
+    - vim-development
+    - vim-development-ycm
+
+- name: Create directory for Vim runtime command files
+  file: path=~{{devuser}}/{{item}} state=directory
+      owner={{devuser}} mode=0775
+  with_items:
+    - '.vim/vimrcs'
+    - '.vim/temp_dirs'
+  tags: 
+    - vim-development
+    - vim-development-vimrcs
+
+- name: Install Vim runtime command files
+  copy: src={{item}} dest=~{{devuser}}/.vim/vimrcs
+      owner={{devuser}} mode=0664 backup=yes
+  with_items:
+    - vimrcs/basic.vim
+    - vimrcs/extended.vim
+    - vimrcs/filetypes.vim
+    - vimrcs/plugins_config.vim
+  tags: 
+    - vim-development
+    - vim-development-vimrcs
+
+- name: Install default Vim runtime command file (.vimrc)
+  copy: src=vimrc dest=~{{devuser}}/.vimrc
+      owner={{devuser}} mode=0664 backup=yes
+  tags: 
+    - vim-development
+    - vim-development-vimrcs
+
