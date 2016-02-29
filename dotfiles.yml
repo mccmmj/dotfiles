@@ -1,0 +1,9 @@
+---
+# Main Play development playbook
+- name: configure and deploy dotfiles for user
+  hosts: "{{hosts}}"
+  roles:
+    - role: base-development
+    - role: zsh-development
+    - role: tmux-development
+    - role: vim-development
