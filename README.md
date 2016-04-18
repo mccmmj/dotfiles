@@ -1,14 +1,15 @@
-Notes:
+Summary:
 =======
-This script attempts to fully setup a development environment for python using VIM
-The entire environment is provisioned using ansible.  There are four parts to the
+This project is intended for setting up dotfiles for linux development.  It uses ansible to configure the .dotfile for a targer user account.  There are four parts to the
 setup:
-   base-development-sudo: installs requires packages (requires root(sudo) access)
-   base-development: installs requires packages (does not require sudo access)
-   tmux-development: tumux configuration
-   zsh-development: zsh setup including (oh-my-zsh)
-   vim-development: vim setup with lots of plugins
+*    base-development-sudo: installs requires packages (requires root(sudo) access)
+*    base-development: installs requires packages (does not require sudo access)
+*    tmux-development: tumux configuration
+*    zsh-development: zsh setup including (oh-my-zsh)
+*    vim-development: vim setup with lots of plugins
+ 
 Prerequisites:
+==============
    A python virutal env for installing some of the required packages
 
 Script can be run manually to run or rerun any of the parts.
