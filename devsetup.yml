@@ -2,9 +2,5 @@
 # Main Play development playbook
 - name: configure and deploy zsh, tmux, vim for development
   hosts: "{{hosts}}"
-  become: yes
   roles:
-    - role: base-development
-    - role: zsh-development
-    - role: tmux-development
-    - role: vim-development
+    - role: base-development-sudo

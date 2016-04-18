@@ -4,7 +4,7 @@
   yum: name="@Development tools" state=present
   become: yes
   when: ansible_os_family == "RedHat" and ansible_lsb.major_release|int == 6
-  tags: 
+  tags:
     - base-development-sudo
 
 - name: Install essential build tools for Debian
@@ -14,7 +14,7 @@
   with_items:
     - "linux-headers-{{ansible_kernel}}"
     - "build-essential"
-  tags: 
+  tags:
     - base-development-sudo
 
 - name: Install npm and other packages on RH
@@ -24,10 +24,10 @@
   with_items:
     - npm
     - cmake
-    - tmux
+    #- tmux
     - vim
     - zsh
-  tags: 
+  tags:
     - base-development-sudo
 
 - name: Install npm and other packages on Debian
@@ -42,7 +42,7 @@
     - zsh
     - tidy
     - exuberant-ctags
-  tags: 
+  tags:
     - base-development-sudo
 
 - name: Install JSHint, code analysis tool for JavaScript
@@ -56,7 +56,7 @@
   register: result
   ignore_errors: True
   when: ansible_os_family == "RedHat" and ansible_lsb.major_release|int == 6
-  tags: 
+  tags:
     - base-development-sudo
     - base-development-tidy5
 
@@ -64,7 +64,7 @@
   git: repo=https://github.com/htacg/tidy-html5.git
     dest=/var/tmp/tidy-html5
   when: result is defined and (result.rc !=0 or not result.stdout|search('Tidy'))
-  tags: 
+  tags:
     - base-development-sudo
     - base-development-tidy5
 
@@ -76,7 +76,7 @@
     - make
     - make install
   when: result is defined and (result.rc !=0 or not result.stdout|search('Tidy'))
-  tags: 
+  tags:
     - base-development-sudo
     - base-development-tidy5
 
@@ -85,23 +85,23 @@
   register: result
   ignore_errors: True
   when: ansible_os_family == "RedHat" and ansible_lsb.major_release|int == 6
-  tags: 
+  tags:
     - base-development-sudo
     - base-development-ctags
 
 - name: Download Exuberant Ctags
-  get_url: 
-      url=http://prdownloads.sourceforge.net/ctags/ctags-5.8.tar.gz 
+  get_url:
+      url=http://prdownloads.sourceforge.net/ctags/ctags-5.8.tar.gz
       dest='/var/tmp/ctags-5.8.tar.gz' validate_certs=no
   when: result is defined and (result.rc !=0 or not result.stdout|search('Exuberant Ctags'))
-  tags: 
+  tags:
     - base-development-sudo
     - base-development-ctags
 
 - name: Extract Exuberant Ctags source
   command: tar -xzf /var/tmp/{{mod_wsgi_tarball}} chdir=/var/tmp creates=/var/tmp/{{mod_wsgi_tmpdir}}
   when: result is defined and (result.rc !=0 or not result.stdout|search('Exuberant Ctags'))
-  tags: 
+  tags:
     - base-development-sudo
     - base-development-ctags
 
@@ -113,7 +113,7 @@
     - make
     - make install
   when: result is defined and (result.rc !=0 or not result.stdout|search('Exuberant Ctags'))
-  tags: 
+  tags:
     - base-development-sudo
     - base-development-ctags
 
