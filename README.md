@@ -25,7 +25,7 @@ Installation
 
 ```
    
-  Run privileged playbook first to install the necessary development packages:
+Run privileged playbook first to install the necessary development packages:
 
 
 ```
@@ -36,20 +36,28 @@ Installation
          -t base-development
 ```
 
-  Next, setup dotfiles as the target user:
-    For just Vim devlopment:
+Next, setup dotfiles as the target user.
+   For just Vim development:
 
 ```
 #!bash
 
-    ansible-playbook dotfiles.yml -i inventory.local -K -c local \
+   ansible-playbook dotfiles.yml -i inventory.local -K -c local \
         -e "hosts=local devuser=<devuser> virtual_env=${VIRTUAL_ENV}" -t vim-development
 ```
 
-    OR, for everything:
+For everything else.
+   run without tag:
 
 ```
 #!bash
     ansible-playbook dotfiles.yml -i inventory.local -K -c local \
         -e "hosts=local devuser=<devuser> virtual_env=${VIRTUAL_ENV}"
 ```
+
+Available tags:
+
+  * zsh-development
+  * tmux-development
+  * vim-development
+  * base-development
