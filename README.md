@@ -1,7 +1,6 @@
 Summary:
 =======
-This project is intended for setting up dotfiles for linux development.  It uses ansible to configure the .dotfile for a targer user account.  There are four parts to the
-setup:
+This project setting up dotfiles for linux development.  Uses ansible to install .dotfiles for target user account.  There are four parts to the setup:
 *    base-development-sudo: installs requires packages (requires root(sudo) access)
 *    base-development: installs requires packages (does not require sudo access)
 *    tmux-development: tumux configuration
@@ -12,7 +11,7 @@ Prerequisites:
 ==============
    A python virutal env for installing some of the required packages
 
-Script can be run manually to run or rerun any of the parts.
+Run playbooks as follows.
 Need root priviledge to run the base-development portion
 To just perfom the base development build
    ansible-playbook dotfiles.yml -i inventory.local -K -c local \
