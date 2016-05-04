@@ -12,16 +12,16 @@
 ##    A python virutal env for installing some of the required packages
 ##
 ## Script can be run manually to run or rerun any of the parts.
-## Need root priviledge to run the base-development portion
-## To just perfom the base development build
-##    ansible-playbook dotfiles.yml -i inventory.local -K -c local \
-##       -e "hosts=local devuser=${LOGNAME} virtual_env=${VIRTUAL_ENV}" \
-##       -t base-development
+## Need root priviledge to run the devsetup playbook
+## To just perfom the devsetup (installs pacakges required for dev environment):
+##    ansible-playbook devsetup.yml -i inventory.local -K -c local \
+##       -e "hosts=local devuser=${LOGNAME} virtual_env=${VIRTUAL_ENV}"
+##
+## Examples
+## Base development 
+ansible-playbook dotfiles.yml -i inventory.local -c local \
+   -e "hosts=local devuser=${LOGNAME} virtual_env=${VIRTUAL_ENV}" -t base-development
 ## For other parts,
 ##    -t zsh-development
 ##    -t tmux-development
 ##    -t vim-development
-##
-## Examples
-## Base development 
-ansible-playbook dotfiles.yml -i inventory.local -K -c local -e "hosts=local devuser=<devuser> virtual_env=${VIRTUAL_ENV}" -t base-development

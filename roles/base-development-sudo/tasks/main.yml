@@ -3,14 +3,14 @@
 - name: Install the 'Development tools' package group for RH
   yum: name="@Development tools" state=present
   become: yes
-  when: ansible_os_family == "RedHat" and ansible_lsb.major_release|int == 6
+  when: ansible_pkg_mgr == "yum"
   tags:
     - base-development-sudo
 
 - name: Install essential build tools for Debian
   apt: pkg="{{item}}" state=present
   become: yes
-  when: ansible_os_family == "Debian"
+  when: ansible_pkg_mgr == "apt"
   with_items:
     - "linux-headers-{{ansible_kernel}}"
     - "build-essential"
@@ -27,6 +27,17 @@
     #- tmux
     - vim
     - zsh
+  tags:
+    - base-development-sudo
+
+- name: Install exuberant-ctags RHEL7
+  yum: name={{item}} state=present
+  become: yes
+  when: 
+    - ansible_pkg_mgr == "yum"
+    - ansible_os_family == "RedHat" and ansible_lsb.major_release|int == 7
+  with_items:
+    - ctags-etags
   tags:
     - base-development-sudo
 
@@ -55,7 +66,7 @@
   shell: /usr/local/bin/tidy --version
   register: result
   ignore_errors: True
-  when: ansible_os_family == "RedHat" and ansible_lsb.major_release|int == 6
+  when: ansible_os_family == "RedHat"
   tags:
     - base-development-sudo
     - base-development-tidy5
