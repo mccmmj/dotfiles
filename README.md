@@ -42,7 +42,7 @@ Next, setup dotfiles as the target user.
 ```
 #!bash
 
-   ansible-playbook dotfiles.yml -i inventory.local -K -c local \
+   ansible-playbook dotfiles.yml -i inventory.local -c local \
         -e "hosts=local devuser=<devuser> virtual_env=${VIRTUAL_ENV}" -t vim-development
 ```
 
@@ -51,7 +51,7 @@ For everything else.
 
 ```
 #!bash
-    ansible-playbook dotfiles.yml -i inventory.local -K -c local \
+    ansible-playbook dotfiles.yml -i inventory.local -c local \
         -e "hosts=local devuser=<devuser> virtual_env=${VIRTUAL_ENV}"
 ```
 
