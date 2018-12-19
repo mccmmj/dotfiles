@@ -1,0 +1,12 @@
+---
+- name: Install ipython, ipdb, and other python packages 
+  pip: name={{item}} state=present virtualenv={{virtual_env}}
+  with_items:
+    - ipython
+    - ipdb
+    - pyflakes
+    - powerline-status
+    - gunicorn
+  tags: 
+    - base-development
+

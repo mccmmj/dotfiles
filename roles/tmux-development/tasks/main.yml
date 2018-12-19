@@ -1,0 +1,45 @@
+---
+- name: Copy tmux.conf file
+  copy: src=tmux.conf dest=~{{devuser}}/.tmux.conf
+      owner={{devuser}} mode=0664 backup=yes
+  tags: 
+    - tmux-development
+
+#- name: Remove pre-exiting configurations
+#  file: path=~{{devuser}}/{{item}} state=absent
+#  with_items:
+#    - '.tmux'
+#  tags: 
+#    - tmux-development
+#
+#- name: Install tmux config
+#  shell: su - {{devuser}}
+#      -c 'git clone https://github.com/tony/tmux-config.git ~/.tmux'
+#  tags: 
+#    - tmux-development
+#
+#- name: Download tmux submodule
+#  shell: su - {{devuser}} 
+#      -c 'cd ~/.tmux && git submodule update --init'
+#  tags: 
+#    - tmux-development
+#
+#- name: Compile tmux submodule
+#  shell: su - {{devuser}} 
+#      -c 'cd ~/.tmux/vendor/tmux-mem-cpu-load && cmake . && make'
+#  tags: 
+#    - tmux-development
+#
+#- name: Install tmux submodule
+#  shell: cd ~{{devuser}}/.tmux/vendor/tmux-mem-cpu-load && make install
+#  tags: 
+#    - tmux-development
+#
+#- name: Create link to installed tmux.conf file
+#  file: state=link
+#        path=~{{devuser}}/.tmux.conf
+#        src=~{{devuser}}/.tmux/tmux.conf
+#        owner={{devuser }}
+#  tags:
+#    - tmux-development
+
