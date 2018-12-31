@@ -18,17 +18,18 @@
   become: yes
   become_user: "{{devuser}}"
   with_items:
+    - {url: 'https://github.com/airblade/vim-gitgutter.git'}
     - {url: 'https://github.com/Valloric/YouCompleteMe.git'}
     - {url: 'https://github.com/scrooloose/nerdtree.git'}
     - {url: 'https://github.com/scrooloose/nerdcommenter.git'}
     - {url: 'https://github.com/flazz/vim-colorschemes.git'}
-    - {url: 'https://github.com/kien/ctrlp.vim.git'}
     - {url: 'https://github.com/bling/vim-airline.git'}
     - {url: 'https://github.com/tmhedberg/SimpylFold.git'}
     - {url: 'https://github.com/jlanzarotta/bufexplorer.git'}
     - {url: 'https://github.com/scrooloose/syntastic.git'}
     - {url: 'https://github.com/tpope/vim-surround.git'}
     - {url: 'https://github.com/tpope/vim-repeat.git'}
+    - {url: 'https://github.com/tpope/vim-eunuch.git'}
     - {url: 'https://github.com/tomtom/tlib_vim.git'}
     - {url: 'https://github.com/garbas/vim-snipmate.git'}
     - {url: 'https://github.com/mattn/emmet-vim.git'}
@@ -36,6 +37,12 @@
     - {url: 'https://github.com/Yggdroot/indentLine.git'}
     - {url: 'https://github.com/MarcWeber/vim-addon-mw-utils.git'}
     - {url: 'https://github.com/leafgarland/typescript-vim.git' }
+    - {url: 'https://github.com/editorconfig/editorconfig-vim.git'}
+    - {url: 'https://github.com/itchyny/lightline.vim.git' }
+    - {url: 'https://github.com/junegunn/fzf.git'}
+    - {url: 'https://github.com/junegunn/fzf.vim.git'}
+    - {url: 'https://github.com/terryma/vim-multiple-cursors.git'}
+    - {url: 'https://github.com/w0rp/ale.git'}
   tags:
     - vim-development
 
@@ -90,6 +97,13 @@
 
 - name: Install default Vim runtime command file (.vimrc)
   copy: src=vimrc dest=~{{devuser}}/.vimrc
+      owner={{devuser}} mode=0664 backup=yes
+  tags: 
+    - vim-development
+    - vim-development-vimrcs
+
+- name: Install editory config file (.editorconfig)
+  copy: src=_dot_editorconfig dest=~{{devuser}}/.editorconfig
       owner={{devuser}} mode=0664 backup=yes
   tags: 
     - vim-development
