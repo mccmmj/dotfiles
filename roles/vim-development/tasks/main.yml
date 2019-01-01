@@ -3,14 +3,14 @@
   file: path=~{{devuser}}/{{item}} state=absent
   with_items:
     - '.vim'
-  tags: 
+  tags:
     - vim-development
 
-- name: Install Pathogen 
+- name: Install Pathogen
   shell: mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
   become: yes
   become_user: "{{devuser}}"
-  tags: 
+  tags:
     - vim-development
 
 - name: Install Vim plugins
@@ -19,6 +19,7 @@
   become_user: "{{devuser}}"
   with_items:
     - {url: 'https://github.com/airblade/vim-gitgutter.git'}
+    - {url: 'https://github.com/junegunn/fzf.vim.git'}
     - {url: 'https://github.com/Valloric/YouCompleteMe.git'}
     - {url: 'https://github.com/scrooloose/nerdtree.git'}
     - {url: 'https://github.com/scrooloose/nerdcommenter.git'}
@@ -31,7 +32,8 @@
     - {url: 'https://github.com/tpope/vim-repeat.git'}
     - {url: 'https://github.com/tpope/vim-eunuch.git'}
     - {url: 'https://github.com/tomtom/tlib_vim.git'}
-    - {url: 'https://github.com/garbas/vim-snipmate.git'}
+    - {url: 'https://github.com/SirVer/ultisnips.git'}
+    - {url: 'https://github.com/honza/vim-snippets.git'}
     - {url: 'https://github.com/mattn/emmet-vim.git'}
     - {url: 'https://github.com/vim-scripts/YankRing.vim.git'}
     - {url: 'https://github.com/Yggdroot/indentLine.git'}
@@ -39,12 +41,27 @@
     - {url: 'https://github.com/leafgarland/typescript-vim.git' }
     - {url: 'https://github.com/editorconfig/editorconfig-vim.git'}
     - {url: 'https://github.com/itchyny/lightline.vim.git' }
-    - {url: 'https://github.com/junegunn/fzf.git'}
-    - {url: 'https://github.com/junegunn/fzf.vim.git'}
     - {url: 'https://github.com/terryma/vim-multiple-cursors.git'}
     - {url: 'https://github.com/w0rp/ale.git'}
   tags:
     - vim-development
+
+- name: Clone fzf repo outside plugins (bundle) directory
+  git:
+    repo: 'https://github.com/junegunn/fzf.git'
+    dest: ~/.fzf
+    version: master
+  tags:
+    - vim-development
+    - vim-development-fzf
+
+- name: Run fzf installer
+  shell: ~/.fzf/install
+  become: yes
+  become_user: "{{devuser}}"
+  tags:
+    - vim-development
+    - vim-development-fzf
 
 - name: Create link to installed vim-colorschemes/colors directory
   file: state=link
@@ -59,17 +76,17 @@
   shell: cd ~/.vim/bundle/SimpylFold && git submodule update --init
   become: yes
   become_user: "{{devuser}}"
-  tags: 
+  tags:
     - vim-development
 
 - name: Compile YouCompleteMe vim plugin
-  shell: . {{virtual_env}}/bin/activate && 
-     cd ~/.vim/bundle/YouCompleteMe && 
-     git submodule update --init --recursive && 
+  shell: . {{virtual_env}}/bin/activate &&
+     cd ~/.vim/bundle/YouCompleteMe &&
+     git submodule update --init --recursive &&
      ./install.py
   become: yes
   become_user: "{{devuser}}"
-  tags: 
+  tags:
     - vim-development
     - vim-development-ycm
 
@@ -79,7 +96,7 @@
   with_items:
     - '.vim/vimrcs'
     - '.vim/temp_dirs'
-  tags: 
+  tags:
     - vim-development
     - vim-development-vimrcs
 
@@ -91,21 +108,28 @@
     - vimrcs/extended.vim
     - vimrcs/filetypes.vim
     - vimrcs/plugins_config.vim
-  tags: 
+  tags:
+    - vim-development
+    - vim-development-vimrcs
+
+- name: Install "personal" Vim runtime command files
+  template: src=my_configs.vim.j2 dest=~{{devuser}}/.vim/my_configs.vim
+      owner={{devuser}} mode=0664 backup=yes
+  tags:
     - vim-development
     - vim-development-vimrcs
 
 - name: Install default Vim runtime command file (.vimrc)
   copy: src=vimrc dest=~{{devuser}}/.vimrc
       owner={{devuser}} mode=0664 backup=yes
-  tags: 
+  tags:
     - vim-development
     - vim-development-vimrcs
 
 - name: Install editory config file (.editorconfig)
   copy: src=_dot_editorconfig dest=~{{devuser}}/.editorconfig
       owner={{devuser}} mode=0664 backup=yes
-  tags: 
+  tags:
     - vim-development
     - vim-development-vimrcs
 

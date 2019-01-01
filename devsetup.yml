@@ -1,6 +1,7 @@
 ---
 # Main Play development playbook
 - name: configure and deploy zsh, tmux, vim for development
-  hosts: "{{hosts}}"
+  hosts: 127.0.0.1
+  connection: local
   roles:
     - role: base-development-sudo

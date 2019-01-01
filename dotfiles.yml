@@ -1,7 +1,8 @@
 ---
 # Main Play development playbook
 - name: configure and deploy dotfiles for user
-  hosts: "{{hosts}}"
+  hosts: 127.0.0.1
+  connection: local
   roles:
     - role: base-development
     - role: zsh-development

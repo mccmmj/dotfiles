@@ -71,11 +71,6 @@ autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
 
 
 """"""""""""""""""""""""""""""
-" => fzf
-""""""""""""""""""""""""""""""
-map <c-f> :Files<CR>
-
-""""""""""""""""""""""""""""""
 " => CTRL-P
 """"""""""""""""""""""""""""""
 " let g:ctrlp_working_path_mode = 0
@@ -90,6 +85,12 @@ map <c-f> :Files<CR>
 " set wildignore+=*/coverage/*
 
 """"""""""""""""""""""""""""""
+" => fzf
+""""""""""""""""""""""""""""""
+set rtp+=~/.fzf
+map <c-f> :Files<CR>
+
+""""""""""""""""""""""""""""""
 " => ZenCoding
 """"""""""""""""""""""""""""""
 " Enable all functions in all modes
@@ -100,8 +101,27 @@ let g:user_emmet_mode='a'    "enable all function in all mode.
 """"""""""""""""""""""""""""""
 " => snipMate (beside <TAB> support <CTRL-j>)
 """"""""""""""""""""""""""""""
-ino <c-j> <c-r>=snipMate#TriggerSnippet()<cr>
-snor <c-j> <esc>i<right><c-r>=snipMate#TriggerSnippet()<cr>
+" ino <c-j> <c-r>=snipMate#TriggerSnippet()<cr>
+" snor <c-j> <esc>i<right><c-r>=snipMate#TriggerSnippet()<cr>
+
+""""""""""""""""""""""""""""""
+" => UltiSnips
+""""""""""""""""""""""""""""""
+set rtp+=~/.vim/bundle/vim-snippets/UltiSnips
+
+let g:UltiSnipsUsePythonVersion = 3   " or 2
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<C-j>"
+let g:UltiSnipsListSnippits="<C-S-j>"
+let g:UltiSnipsJumpForwardTrigger="<C-l>"
+let g:UltiSnipsJumpBackwardTrigger="<C-h>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetsDir="~/.vim/my_snippets"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
+
 
 
 """"""""""""""""""""""""""""""

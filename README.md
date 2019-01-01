@@ -31,9 +31,9 @@ Run privileged playbook first to install the necessary development packages:
 ```
 #!bash
 
-   ansible-playbook devsetup.yml -i inventory.local -K -c local \
-         -e "hosts=local devuser=<target user> virtual_env=${VIRTUAL_ENV}" \
-         -t base-development
+   ansible-playbook devsetup.yml \
+        -e "devuser=mccjmcc virtual_env=${VIRTUAL_ENV}" \
+        -t base-development
 ```
 
 Next, setup dotfiles as the target user.
@@ -42,8 +42,9 @@ Next, setup dotfiles as the target user.
 ```
 #!bash
 
-   ansible-playbook dotfiles.yml -i inventory.local -c local \
-        -e "hosts=local devuser=<devuser> virtual_env=${VIRTUAL_ENV}" -t vim-development
+   ansible-playbook dotfiles.yml \
+        -e "devuser=mccjmcc virtual_env=${VIRTUAL_ENV}" \
+        -t vim-development
 ```
 
 For everything else.
@@ -51,8 +52,8 @@ For everything else.
 
 ```
 #!bash
-    ansible-playbook dotfiles.yml -i inventory.local -c local \
-        -e "hosts=local devuser=<devuser> virtual_env=${VIRTUAL_ENV}"
+   ansible-playbook dotfiles.yml \
+        -e "devuser=mccjmcc virtual_env=${VIRTUAL_ENV}" \
 ```
 
 Available tags:

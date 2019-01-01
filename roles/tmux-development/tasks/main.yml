@@ -1,38 +1,55 @@
 ---
+# -----------------------------------------------------------------------------
+# # Plugin Manager - https://github.com/tmux-plugins/tpm
+# # In order to use the plugins below you need to install TPM and the plugins.
+# #   Step 1) git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+# #   Step 2) Reload tmux if it's already started with `r
+# #   Step 3) Launch tmux and hit `I (capital i) to fetch any plugins
+# #
+# -----------------------------------------------------------------------------
+- name: git clone tmux-plugins/tpm repo
+  git:
+    repo: 'https://github.com/tmux-plugins/tpm.git'
+    dest: ~/.tmux/plugins/tpm
+    version: master
+  tags:
+    - tmux-development
+
+
 - name: Copy tmux.conf file
   copy: src=tmux.conf dest=~{{devuser}}/.tmux.conf
       owner={{devuser}} mode=0664 backup=yes
-  tags: 
+  tags:
     - tmux-development
 
 #- name: Remove pre-exiting configurations
 #  file: path=~{{devuser}}/{{item}} state=absent
 #  with_items:
 #    - '.tmux'
-#  tags: 
+#  tags:
 #    - tmux-development
 #
 #- name: Install tmux config
 #  shell: su - {{devuser}}
 #      -c 'git clone https://github.com/tony/tmux-config.git ~/.tmux'
-#  tags: 
+#  tags:
 #    - tmux-development
 #
 #- name: Download tmux submodule
-#  shell: su - {{devuser}} 
+#  shell: su - {{devuser}}
 #      -c 'cd ~/.tmux && git submodule update --init'
-#  tags: 
+#  tags:
 #    - tmux-development
 #
 #- name: Compile tmux submodule
-#  shell: su - {{devuser}} 
+#  shell: su - {{devuser}}
 #      -c 'cd ~/.tmux/vendor/tmux-mem-cpu-load && cmake . && make'
-#  tags: 
+#  tags:
 #    - tmux-development
 #
 #- name: Install tmux submodule
 #  shell: cd ~{{devuser}}/.tmux/vendor/tmux-mem-cpu-load && make install
-#  tags: 
+#  tags:
 #    - tmux-development
 #
 #- name: Create link to installed tmux.conf file
