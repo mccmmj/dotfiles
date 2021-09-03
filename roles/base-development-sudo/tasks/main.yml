@@ -12,7 +12,7 @@
   become: yes
   when: ansible_pkg_mgr == "apt"
   with_items:
-    #- "linux-headers-{{ansible_kernel}}"
+    - "linux-headers-{{ansible_kernel}}"
     - "build-essential"
   tags:
     - base-development-sudo

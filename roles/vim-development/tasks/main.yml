@@ -1,6 +1,6 @@
 ---
 - name: Remove pre-exiting configurations
-  file: path=~{{devuser}}/{{item}} state=absent
+  file: path=~{{logname}}/{{item}} state=absent
   with_items:
     - '.vim'
   tags:
@@ -9,65 +9,65 @@
 - name: Install Pathogen
   shell: mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
   become: yes
-  become_user: "{{devuser}}"
+  become_user: "{{logname}}"
   tags:
     - vim-development
 
 - name: Install Vim plugins
   shell: cd ~/.vim/bundle && git clone {{item.url}}
   become: yes
-  become_user: "{{devuser}}"
+  become_user: "{{logname}}"
   with_items:
-    - {url: 'https://github.com/airblade/vim-gitgutter.git'}
-    - {url: 'https://github.com/junegunn/fzf.vim.git'}
-    - {url: 'https://github.com/Valloric/YouCompleteMe.git'}
     - {url: 'https://github.com/scrooloose/nerdtree.git'}
     - {url: 'https://github.com/scrooloose/nerdcommenter.git'}
     - {url: 'https://github.com/flazz/vim-colorschemes.git'}
+    - {url: 'https://github.com/kien/ctrlp.vim.git'}
     - {url: 'https://github.com/bling/vim-airline.git'}
     - {url: 'https://github.com/tmhedberg/SimpylFold.git'}
     - {url: 'https://github.com/jlanzarotta/bufexplorer.git'}
-    - {url: 'https://github.com/scrooloose/syntastic.git'}
+    - {url: 'https://github.com/vim-syntastic/syntastic.git'}
     - {url: 'https://github.com/tpope/vim-surround.git'}
     - {url: 'https://github.com/tpope/vim-repeat.git'}
-    - {url: 'https://github.com/tpope/vim-eunuch.git'}
     - {url: 'https://github.com/tomtom/tlib_vim.git'}
-    - {url: 'https://github.com/SirVer/ultisnips.git'}
-    - {url: 'https://github.com/honza/vim-snippets.git'}
     - {url: 'https://github.com/mattn/emmet-vim.git'}
     - {url: 'https://github.com/vim-scripts/YankRing.vim.git'}
+    - {url: 'https://github.com/vim-scripts/AutoComplPop'}
     - {url: 'https://github.com/Yggdroot/indentLine.git'}
     - {url: 'https://github.com/MarcWeber/vim-addon-mw-utils.git'}
-    - {url: 'https://github.com/leafgarland/typescript-vim.git' }
-    - {url: 'https://github.com/editorconfig/editorconfig-vim.git'}
-    - {url: 'https://github.com/itchyny/lightline.vim.git' }
-    - {url: 'https://github.com/terryma/vim-multiple-cursors.git'}
-    - {url: 'https://github.com/w0rp/ale.git'}
+    - {url: 'https://github.com/pangloss/vim-javascript'}
+    - {url: 'https://github.com/godlygeek/tabular'}
+    - {url: 'https://github.com/Raimondi/delimitMate'}
+    - {url: 'https://github.com/nathanaelkane/vim-indent-guides'}
+    - {url: 'https://github.com/groenewege/vim-less'}
+    - {url: 'https://github.com/othree/html5.vim'}
+    - {url: 'https://github.com/elzr/vim-json'}
+    - {url: 'https://github.com/easymotion/vim-easymotion'}
+    - {url: 'https://github.com/mbbill/undotree'}
+    - {url: 'https://github.com/majutsushi/tagbar'}
+    - {url: 'https://github.com/vim-scripts/EasyGrep'}
+    - {url: 'https://github.com/jistr/vim-nerdtree-tabs'}
+    - {url: 'https://github.com/vim-scripts/taglist.vim'}
+    - {url: 'https://github.com/terryma/vim-expand-region'}
+    - {url: 'https://github.com/tpope/vim-fugitive'}
+    - {url: 'https://github.com/fatih/vim-go'}
+    - {url: 'https://github.com/plasticboy/vim-markdown'}
+    - {url: 'https://github.com/michaeljsmith/vim-indent-object'}
+    - {url: 'https://github.com/terryma/vim-multiple-cursors'}
+    - {url: 'https://github.com/vim-scripts/mru.vim'}
+    - {url: 'https://github.com/tpope/vim-haml'}
+    - {url: 'https://github.com/derekwyatt/vim-scala'}
+    - {url: 'https://github.com/christoomey/vim-tmux-navigator'}
+    - {url: 'https://github.com/airblade/vim-gitgutter'}
+    - {url: 'https://github.com/ekalinin/Dockerfile.vim'}
+    - {url: 'https://github.com/vim-scripts/vim-svngutter.git'}
   tags:
     - vim-development
-
-- name: Clone fzf repo outside plugins (bundle) directory
-  git:
-    repo: 'https://github.com/junegunn/fzf.git'
-    dest: ~/.fzf
-    version: master
-  tags:
-    - vim-development
-    - vim-development-fzf
-
-- name: Run fzf installer
-  shell: ~/.fzf/install
-  become: yes
-  become_user: "{{devuser}}"
-  tags:
-    - vim-development
-    - vim-development-fzf
 
 - name: Create link to installed vim-colorschemes/colors directory
   file: state=link
-        path=~{{devuser}}/.vim/colors
-        src=~{{devuser}}/.vim/bundle/vim-colorschemes/colors
-        owner={{devuser }}
+        path=~{{logname}}/.vim/colors
+        src=~{{logname}}/.vim/bundle/vim-colorschemes/colors
+        owner={{logname }}
   tags:
     - vim-development
     - vim-development-link
@@ -75,24 +75,76 @@
 - name: Update python SimpylFold plugin
   shell: cd ~/.vim/bundle/SimpylFold && git submodule update --init
   become: yes
-  become_user: "{{devuser}}"
+  become_user: "{{logname}}"
   tags:
     - vim-development
 
-- name: Compile YouCompleteMe vim plugin
+- name: Install YouCompleteMe Vim plugin
+  shell: cd ~/.vim/bundle &&
+    git clone {{item.url}}
+  become: yes
+  become_user: "{{logname}}"
+  when: include_ycm
+  with_items:
+    - {url: 'https://github.com/Valloric/YouCompleteMe.git'}
+    - {url: 'https://github.com/rdnetto/YCM-Generator.git'}
+  tags:
+    - vim-development
+    - vim-development-ycm
+
+- name: Compile YouCompleteMe vim plugin (default build)
+  shell: . {{virtual_env}}/bin/activate &&
+    cd ~/.vim/bundle/YouCompleteMe &&
+    git submodule update --init --recursive &&
+    ./install.py
+  when:
+    - include_ycm
+    - llvm_root is not defined
+  become: yes
+  become_user: "{{logname}}"
+  tags:
+    - vim-development
+    - vim-development-ycm
+
+- name: Compile YouCompleteMe vim plugin (with LLVM & Clang)
   shell: . {{virtual_env}}/bin/activate &&
      cd ~/.vim/bundle/YouCompleteMe &&
      git submodule update --init --recursive &&
-     ./install.py
+     EXTRA_CMAKE_ARGS="-DPATH_TO_LLVM_ROOT={{llvm_root}} -DEXTERNAL_LIBCLANG_PATH=/var/ueg/llvm/root/lib/libclang.so" ./install.py --clang-completer
+  when:
+    - include_ycm
+    - llvm_root is defined
   become: yes
-  become_user: "{{devuser}}"
+  become_user: "{{logname}}"
+  tags:
+    - vim-development
+    - vim-development-ycm
+
+- name: Create directory for extra YCM files
+  file: path=~{{logname}}/{{item}} state=directory
+      owner={{logname}} mode=0775
+  when:
+    - include_ycm
+  with_items:
+    - '.vim/ycm_extras'
+  tags:
+    - vim-development
+    - vim-development-ycm
+
+- name: Install YCM extra files
+  copy: src={{item}} dest=~{{logname}}/.vim/ycm_extras
+      owner={{logname}} mode=0664 backup=yes
+  when:
+    - include_ycm
+  with_items:
+    - ycm_extras/ycm_extra_conf.py
   tags:
     - vim-development
     - vim-development-ycm
 
 - name: Create directory for Vim runtime command files
-  file: path=~{{devuser}}/{{item}} state=directory
-      owner={{devuser}} mode=0775
+  file: path=~{{logname}}/{{item}} state=directory
+      owner={{logname}} mode=0775
   with_items:
     - '.vim/vimrcs'
     - '.vim/temp_dirs'
@@ -101,34 +153,35 @@
     - vim-development-vimrcs
 
 - name: Install Vim runtime command files
-  copy: src={{item}} dest=~{{devuser}}/.vim/vimrcs
-      owner={{devuser}} mode=0664 backup=yes
+  copy: src={{item}} dest=~{{logname}}/.vim/vimrcs
+      owner={{logname}} mode=0664 backup=yes
   with_items:
     - vimrcs/basic.vim
     - vimrcs/extended.vim
     - vimrcs/filetypes.vim
+  tags:
+    - vim-development
+    - vim-development-vimrcs
+
+- name: Instantiate & Install Vim template files
+  template: src={{item}}.j2 dest=~{{logname}}/.vim/{{item}}
+      owner={{logname}} mode=0664 backup=yes
+  with_items:
     - vimrcs/plugins_config.vim
   tags:
     - vim-development
     - vim-development-vimrcs
 
-- name: Install "personal" Vim runtime command files
-  template: src=my_configs.vim.j2 dest=~{{devuser}}/.vim/my_configs.vim
-      owner={{devuser}} mode=0664 backup=yes
-  tags:
-    - vim-development
-    - vim-development-vimrcs
-
 - name: Install default Vim runtime command file (.vimrc)
-  copy: src=vimrc dest=~{{devuser}}/.vimrc
-      owner={{devuser}} mode=0664 backup=yes
+  copy: src=vimrc dest=~{{logname}}/.vimrc
+      owner={{logname}} mode=0664 backup=yes
   tags:
     - vim-development
     - vim-development-vimrcs
 
-- name: Install editory config file (.editorconfig)
-  copy: src=_dot_editorconfig dest=~{{devuser}}/.editorconfig
-      owner={{devuser}} mode=0664 backup=yes
+- name: Install pythontags file
+  shell: cd ${VIRTUAL_ENV}/lib/python3.7/ && ctags --fields=+l -R -o ~{{logname}}/pythontags
+  ignore_errors: True
   tags:
     - vim-development
     - vim-development-vimrcs

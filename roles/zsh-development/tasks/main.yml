@@ -1,24 +1,24 @@
 ---
 - name: Remove pre-exiting Oh My Zsh installation
-  file: path=~{{devuser}}/.oh-my-zsh state=absent
+  file: path=~{{logname}}/.oh-my-zsh state=absent
   tags: 
     - zsh-development
 
 - name: Install Oh My Zsh
-  git: clone=yes repo=https://github.com/robbyrussell/oh-my-zsh.git dest=~{{devuser}}/.oh-my-zsh
-  become_user: "{{devuser}}"
+  git: clone=yes repo=https://github.com/robbyrussell/oh-my-zsh.git dest=~{{logname}}/.oh-my-zsh
+  become_user: "{{logname}}"
   tags: 
     - zsh-development
 
 #- name: Copy Zsh rumtime command file
-#  copy: src=zshrc dest=~{{devuser}}/.zshrc
-#      owner={{devuser}} mode=0664 backup=yes
+#  copy: src=zshrc dest=~{{logname}}/.zshrc
+#      owner={{logname}} mode=0664 backup=yes
 #  tags: 
 #    - zsh-development
 
 - name: Copy Zsh rumtime command file
-  template: src=zshrc dest=~{{devuser}}/.zshrc
-      owner={{devuser}} mode=0664 backup=yes
+  template: src=zshrc dest=~{{logname}}/.zshrc
+      owner={{logname}} mode=0664 backup=yes
   tags: 
     - zsh-development
 

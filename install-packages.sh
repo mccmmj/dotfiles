@@ -14,13 +14,13 @@
 ## Script can be run manually to run or rerun any of the parts.
 ## Need root priviledge to run the devsetup playbook
 ## To just perfom the devsetup (installs pacakges required for dev environment):
-##    ansible-playbook devsetup.yml \
-##       -e "devuser=${LOGNAME} virtual_env=${VIRTUAL_ENV}"
+##    ansible-playbook devsetup.yml -i "localhost," -K -c local \
+##       -e "logname=${LOGNAME} virtual_env=${VIRTUAL_ENV}"
 ##
 ## Examples
-## Base development
-ansible-playbook dotfiles.yml \
-   -e "devuser=${LOGNAME} virtual_env=${VIRTUAL_ENV}" -t base-development
+## Base development 
+ansible-playbook dotfiles.yml -i "localhost," -c local \
+   -e "logname=${LOGNAME} virtual_env=${VIRTUAL_ENV}" -t base-development
 ## For other parts,
 ##    -t zsh-development
 ##    -t tmux-development

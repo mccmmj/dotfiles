@@ -54,3 +54,4 @@ endfunction
 au FileType coffee call CoffeeScriptFold()
 
 au FileType gitcommit call setpos('.', [0, 1, 1, 0])
+"au FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
