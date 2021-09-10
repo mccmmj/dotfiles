@@ -33,6 +33,7 @@ The following Zshrc files are provided
 #### VIM
 
 The Vim environment includes the following plugins:
+  * [davidhalter/jedi-vim](https://github.com/davidhalter/jedi-vimhttps://github.com/davidhalter/jedi-vim)
   * [Valloric/YouCompleteMe](https://github.com/Valloric/YouCompleteMe)
   * [scrooloose/nerdtree](https://github.com/scrooloose/nerdtree)
   * [scrooloose/nerdcommenter](https://github.com/scrooloose/nerdcommenter)
@@ -123,12 +124,13 @@ cpplint
 powerline-status
 pyflakes
 setuptools
+flawfinder
 ```
 
 Install the requirements:
 
 ```
-$ pip install -U -r requirements.txt
+pip install -U -r requirements.txt
 ```
 
 If flawfinder is unable to install, remove it from the requirements.txt file,
@@ -200,7 +202,7 @@ the target user referred below as `logname`.
 
    * To setup Zsh, run the following
          
-    ```bash
+    ```
     ansible-playbook dotfiles.yml -i "localhost," -c local \
         -e "logname=$LOGNAME virtual_env=$VIRTUAL_ENV" -t zsh-development
     ```
