@@ -18,6 +18,7 @@
   become: yes
   become_user: "{{logname}}"
   with_items:
+    - {url: 'http://github.com/davidhalter/jedi-vim'}
     - {url: 'https://github.com/scrooloose/nerdtree.git'}
     - {url: 'https://github.com/scrooloose/nerdcommenter.git'}
     - {url: 'https://github.com/flazz/vim-colorschemes.git'}
