@@ -111,7 +111,7 @@ setuptools (36.7.0)
 To create a new virtualenv:
 
 ```
-$ virtualenv mypyenv
+$ python3 -m venv mypyenv
 $ source mypyenv/bin/activate
 ```
 
@@ -202,10 +202,12 @@ the target user referred below as `logname`.
 
    * To setup Zsh, run the following
          
-    ```
+
+    ```bash
     ansible-playbook dotfiles.yml -i "localhost," -c local \
         -e "logname=$LOGNAME virtual_env=$VIRTUAL_ENV" -t zsh-development
     ```
+
    * For just Vim development
      - Exclude YCM (this is the fastest and easiest option):
         
