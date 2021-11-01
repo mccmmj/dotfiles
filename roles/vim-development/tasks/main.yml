@@ -181,7 +181,7 @@
     - vim-development-vimrcs
 
 - name: Install pythontags file
-  shell: cd ${VIRTUAL_ENV}/lib/python3.7/ && ctags --fields=+l -R -o ~{{logname}}/pythontags
+  shell: cd ${VIRTUAL_ENV}/lib/python3.8/ && ctags --fields=+l -R -o ~{{logname}}/pythontags
   ignore_errors: True
   tags:
     - vim-development
