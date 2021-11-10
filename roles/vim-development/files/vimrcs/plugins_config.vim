@@ -105,6 +105,22 @@ snor <c-j> <esc>i<right><c-r>=snipMate#TriggerSnippet()<cr>
 "let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'
 "set grepprg=/bin/grep\ -nH
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim-airline config (force color)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" let g:airline_theme="luna"
+" let g:airline_theme="badwolf"
+let g:airline_theme="light"
+
+""""""""""""""""""""""""""""""
+" => jedi-vim
+""""""""""""""""""""""""""""""
+" disable autocompletion, because we use deoplete for completion
+let g:jedi#completions_enabled = 0
+
+" open the go-to function in split, not another buffer
+let g:jedi#use_splits_not_buffers = "right"
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Nerd Tree
@@ -161,7 +177,7 @@ let g:syntastic_check_on_wq = 0
 
 let g:syntastic_python_checkers=['pyflakes']
 let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_cpp_checkers=['cpplint']
+let g:syntastic_cpp_checkers=['cpplint', 'flawfinder']
 let g:syntastic_html_tidy_exec = 'tidy'
 let g:syntastic_cpp_cpplint_exec = 'cpplint'
 
@@ -183,8 +199,24 @@ nnoremap <silent> <leader>l :call SyntasticCheckCoffeescript()<cr>
 " Need to set tags=path/to/tags1,path/to/tags2,...
 " Create tags with Exuberant ctags:
 "    cd cd /usr/local/lib/python2.7/site-packages; ctags ctags --fields=+l -R -o ~/pythontags
-set tags=~/pythontags
-let g:ycm_collect_identifiers_from_tags_files = 1
+set tags=~/pythontags,~/epstags,~/epspytags
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => AUtoComplPop
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set complete+=kspell
+set completeopt=menuone,longest
+
+" Navigate the complete menu items like CTRL+n / CTRL+p would
+inoremap <expr> <Down> pumvisible() ? "<C-n>" :"<Down>"
+inoremap <expr> <Up> pumvisible() ? "<C-p>" : "<Up>"
+
+" Select the complete menu items like CTRL+y would
+inoremap <expr> <Right> pumvisible() ? "<C-y>" : "<Right>"
+inoremap <expr> <CR> pumvisible() ? "<C-y>" :"<CR>"
+
+" Cancel the complete menu items like CTRL+e would
+inoremap <expr> <Left> pumvisible() ? "<C-e>" : "<Left>"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

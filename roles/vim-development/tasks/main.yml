@@ -18,12 +18,13 @@
   become: yes
   become_user: "{{logname}}"
   with_items:
-    - {url: 'http://github.com/davidhalter/jedi-vim'}
+    - {url: 'https://github.com/davidhalter/jedi-vim'}
     - {url: 'https://github.com/scrooloose/nerdtree.git'}
     - {url: 'https://github.com/scrooloose/nerdcommenter.git'}
     - {url: 'https://github.com/flazz/vim-colorschemes.git'}
     - {url: 'https://github.com/kien/ctrlp.vim.git'}
-    - {url: 'https://github.com/bling/vim-airline.git'}
+    - {url: 'https://github.com/vim-airline/vim-airline.git'}
+    - {url: 'https://github.com/vim-airline/vim-airline-themes.git'}
     - {url: 'https://github.com/tmhedberg/SimpylFold.git'}
     - {url: 'https://github.com/jlanzarotta/bufexplorer.git'}
     - {url: 'https://github.com/vim-syntastic/syntastic.git'}
@@ -61,6 +62,7 @@
     - {url: 'https://github.com/airblade/vim-gitgutter'}
     - {url: 'https://github.com/ekalinin/Dockerfile.vim'}
     - {url: 'https://github.com/vim-scripts/vim-svngutter.git'}
+    - {url: 'https://github.com/bling/vim-bufferline'}
   tags:
     - vim-development
 
